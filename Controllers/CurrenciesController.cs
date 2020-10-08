@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using CBCurrencies.Database;
 using CBCurrencies.ApiMethods;
+using CBCurrencies.ExternalApiMethods;
 
 
 namespace CBCurrencies.Controllers
@@ -35,6 +36,20 @@ namespace CBCurrencies.Controllers
         {
             return JsonConvert.SerializeObject(new GetCurrencies(Context).Do());
         }
+
+        [HttpGet("getUpdate")]
+        public async Task<string> GetUpdate()
+        {
+
+
+            var recivedData = await new GetUpdate().Do();
+            var presentedData = new AddCurrencies(Context).Do(recivedData);
+            new UpdateCurrencies(Context).Do(presentedData);
+
+            return "Обновление завершено, введите /currencies для просмотра";
+        }
+
+
 
 
     }

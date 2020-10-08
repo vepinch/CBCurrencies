@@ -24,10 +24,10 @@ namespace CBCurrencies.ExternalApiMethods
 
             if (response.IsSuccessful)
             {
-                var skipped = JObject.Parse(response.Content);
+                var parsedResponse = JObject.Parse(response.Content);
 
                 
-                foreach (var item in skipped.Last.Children().Children())
+                foreach (var item in parsedResponse.Last.Children().Children())
                 {
                     values.Add(item.First.ToObject<CurrencyViewModel>());
                 }
@@ -40,20 +40,6 @@ namespace CBCurrencies.ExternalApiMethods
 
         }
 
-        public class ContentViewModel
-        {
-            public DateTime Date { get; set; }
-            public DateTime PreviousDate { get; set; }
-            public string PreviousURL { get; set; }
-            public DateTime Timestamp { get; set; }
-
-            public ValutesViewModel Valutes { get; set; }
-        }
-
-        public class ValutesViewModel
-        {
-            public Dictionary<string, CurrencyViewModel> Valutes { get; set; }
-        }
 
         public class CurrencyViewModel
         {
